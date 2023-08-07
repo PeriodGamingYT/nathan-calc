@@ -32,7 +32,7 @@ void next() {
 
 int expect(char x) {
 	if(token != x) {
-		fprintf(stderr, "expected %c, but got %c:%d instead\n", x, token, token);
+		fprintf(stderr, "expected %c:%d, but got %c:%d instead\n", x, x, token, token);
 		exit(1);
 	}
 
@@ -46,9 +46,9 @@ int value() {
 		expect('(');
 		value = expr();
 		expect(')');
-	} else {
+	} else if(token == NUM) {
 		value = token_val;
-		expect(NUM);
+		next();
 	}
 
 	return value;
