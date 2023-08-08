@@ -58,7 +58,7 @@ int expr();
 int value() {
 	int value = 0;
 	if(token == STOP || *src == 0 || *src == -1) {
-		fprintf(stderr, "can't find a number to get value of\n");
+		fprintf(stderr, "can't find a number to get value of, found end of file instead\n");
 		exit(1);
 	}
 	
