@@ -6,6 +6,7 @@ enum { NUM, STOP, IS_EQ, IS_MORE_EQ, IS_LESS_EQ, IS_NOT_EQ, SHL, SHR };
 int token = 0;
 int token_val = 0;
 char *src = NULL;
+char *buffer_ptr = NULL;
 void next() {
 	if(!(*src) || *src == -1) {
 		token = STOP;
@@ -56,13 +57,18 @@ int expect(char x) {
 int expr();
 int value() {
 	int value = 0;
+	if(token == STOP || *src == 0 || *src == -1) {
+		fprintf(stderr, "can't find a number to get value of\n");
+		exit(1);
+	}
+	
 	if(token == '(') {
 		expect('(');
 		value = expr();
 		expect(')');
-	} else if(token == NUM) {
+	} else {
 		value = token_val;
-		next();
+		expect(NUM);
 	}
 
 	return value;
@@ -120,7 +126,7 @@ int expr() {
 #define BUFFER_MAX 128
 int main() {
 	char buffer[BUFFER_MAX] = { 0 };
-	char *buffer_ptr = &buffer[0];
+	buffer_ptr = &buffer[0];
 	size_t buffer_size = BUFFER_MAX;
 	for(;;) {
 		printf("> ");
