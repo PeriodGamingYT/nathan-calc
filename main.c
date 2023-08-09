@@ -61,14 +61,22 @@ int value() {
 		fprintf(stderr, "can't find a number to get value of, found end of file instead\n");
 		exit(1);
 	}
-	
-	if(token == '(') {
-		expect('(');
-		value = expr();
-		expect(')');
-	} else {
-		value = token_val;
-		expect(NUM);
+
+	// unary opers are in here
+	switch(token) {
+		case '(':
+			expect('(');
+			value = expr();
+			expect(')');
+			break;
+
+		case '!': expect('!'); value = !expr(); break;
+		case '~': expect('~'); value = ~expr(); break;
+		case '-': expect('-'); value = -expr(); break;
+		default:
+			value = token_val;
+			expect(NUM);
+			break;
 	}
 
 	return value;
@@ -128,6 +136,7 @@ int main() {
 	char buffer[BUFFER_MAX] = { 0 };
 	buffer_ptr = &buffer[0];
 	size_t buffer_size = BUFFER_MAX;
+	printf("Ctrl-C to exit\n");
 	for(;;) {
 		printf("> ");
 		getline(&buffer_ptr, &buffer_size, stdin);

@@ -1,5 +1,5 @@
 make: main.c
-	gcc -o main main.c
+	gcc -s -o main main.c
 
 clean:
 	rm -f main
