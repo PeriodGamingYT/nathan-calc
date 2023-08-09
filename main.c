@@ -115,17 +115,6 @@ int expr_tail(int left_val) {
 	return left_val;
 }
 
-int is_oper(char x) {
-	const char *opers = "+-*/%";
-	for(int i = 0; opers[i] != 0; i++) {
-		if(opers[i] == x) {
-			return 1;
-		}
-	}
-	
-	return 0;
-}
-
 int expr() {
 	int left_val = value();
 	return expr_tail(left_val);
