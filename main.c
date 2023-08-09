@@ -103,7 +103,7 @@ int expr_tail(int left_val) {
 		case '>': expect('>'); return expr_tail(left_val > value());
 		case '&': expect('&'); return expr_tail(left_val & value());
 		case '|': expect('|'); return expr_tail(left_val | value());
-		case ':': expect(':'); return expr_tail(left_val ^ value());
+		case '^': expect('^'); return expr_tail(left_val ^ value());
 		case IS_EQ: expect(IS_EQ); return expr_tail(left_val == value());
 		case IS_MORE_EQ: expect(IS_MORE_EQ); return expr_tail(left_val >= value());
 		case IS_LESS_EQ: expect(IS_LESS_EQ); return expr_tail(left_val <= value());
