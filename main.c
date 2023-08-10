@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum { NUM, STOP, IS_EQ, IS_MORE_EQ, IS_LESS_EQ, IS_NOT_EQ, SHL, SHR };
+enum { NUM, STOP, EQ, MORE_EQ, LESS_EQ, NOT_EQ, SHL, SHR };
 int token = 0;
 int token_val = 0;
 char *src = NULL;
@@ -17,7 +17,7 @@ void next() {
 		src++;
 	}
 
-	const int new_token[] = { IS_EQ, IS_MORE_EQ, IS_LESS_EQ, IS_NOT_EQ, SHL, SHR };
+	const int new_token[] = { EQ, MORE_EQ, LESS_EQ, NOT_EQ, SHL, SHR };
 	const char *two_char_opers[] = {
 		"=><!<>",
 		"====<>"
@@ -58,7 +58,7 @@ int expr();
 int value() {
 	int value = 0;
 	if(token == STOP || *src == 0 || *src == -1) {
-		fprintf(stderr, "can't find a number to get value of, found end of file instead\n");
+		fprintf(stderr, "can't find a token to get value of, found end of file instead\n");
 		exit(1);
 	}
 
@@ -104,10 +104,10 @@ int expr_tail(int left_val) {
 		case '&': expect('&'); return expr_tail(left_val & value());
 		case '|': expect('|'); return expr_tail(left_val | value());
 		case '^': expect('^'); return expr_tail(left_val ^ value());
-		case IS_EQ: expect(IS_EQ); return expr_tail(left_val == value());
-		case IS_MORE_EQ: expect(IS_MORE_EQ); return expr_tail(left_val >= value());
-		case IS_LESS_EQ: expect(IS_LESS_EQ); return expr_tail(left_val <= value());
-		case IS_NOT_EQ: expect(IS_NOT_EQ); return expr_tail(left_val != value());
+		case EQ: expect(EQ); return expr_tail(left_val == value());
+		case MORE_EQ: expect(MORE_EQ); return expr_tail(left_val >= value());
+		case LESS_EQ: expect(LESS_EQ); return expr_tail(left_val <= value());
+		case NOT_EQ: expect(NOT_EQ); return expr_tail(left_val != value());
 		case SHL: expect(SHL); return expr_tail(left_val << value());
 		case SHR: expect(SHR); return expr_tail(left_val >> value());
 	}
