@@ -31,7 +31,6 @@ void next() {
 		}
 	}
 
-	// for one char opers
 	token = *(src++);
 	if(token >= '0' && token <= '9') {
 		token_val = token - '0';
@@ -57,12 +56,11 @@ int expect(char x) {
 int expr();
 int value() {
 	int value = 0;
-	if(token == STOP || *src == 0 || *src == -1) {
+	if(token == STOP || !(*src) || *src == -1) {
 		fprintf(stderr, "can't find a token to get value of, found end of file instead\n");
 		exit(1);
 	}
 
-	// unary opers are in here
 	switch(token) {
 		case '(':
 			expect('(');
